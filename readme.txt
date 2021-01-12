@@ -136,12 +136,16 @@ git add config/*
 git add readme.txt
 git add server.js
 git add serverJson.js
+git add index.html
+git add package-lock.json
+git add package.json
+git add .*
 git commit -m "first commit"
 Connect it to github and create a new repository: sample-vue.js
-git remote add origin https://github.com/danielvornicu/sample-react.git
+git remote add origin https://github.com/danielvornicu/sample-vue.js.git
 git push -u origin master
 
-Deploy Sample-react application on Heroku:
+Deploy 'sample-vue.js' application on Heroku:
 1.First of all, we need a server for our application and what we are going to use is the Express server.
 Locally we run 'node server.js' from terminal to run our app on local browser.
 Install il with:
@@ -152,8 +156,8 @@ Test That Everything is OK:
 >node server.js -lance the app
 3.Change start command
 In package.json, change the “start” command to node server.js so:
-   "start": "react-scripts start"  becomes:  "start": "node server.js"
-We also can create a Procfile with: web: node server.js and leave "start": "react-scripts start" 
+   "start": "npm run dev"  becomes:  "start": "node server.js"
+We also can create a Procfile with: web: node server.js and leave "start": "npm run dev" 
 We can add also Node and NPM engines that Heroku will use to run your application. 
 Preferably, it should be same version you have on your machine.
 So, run node -v and npm -v to get the correct version and include it in your package.json file like so:
