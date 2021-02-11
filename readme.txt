@@ -173,29 +173,45 @@ api: node serverJson.js
 heroku ps:scale web=1 api=1
 
 Deploy 'sample-vue.js' application on GitHub Pages:
-
 1. Create a vue.config.js file in the root directory of your Vue project and set publicPath in vue.config.js to our repository name
 >touch vue.config.js
 module.exports = {
   publicPath: '/sample-vue.js/'
 }
-
 2.Build your project using npm run build:
 >npm run build
-
 3.Run:
 >git add dist 
 >git commit -m "adding dist subtree"
 This commits our changes to the master branch so that we can create a dist subtree in the next step. Make sure that dist is not included in your .gitignore file
-
 4.Now deploy it to GitHub Pages
 >git subtree push --prefix dist origin gh-pages
 This step makes gh-pages a subtree of our master branch. The prefix option specifies the folder that we want for our the subtree. 
 If we take a look at our gh-pages branch, we will see that it is equivalent to being the root of the dist folder
-
 5. Go to: https://danielvornicu.github.io/sample-vue.js/ then click to header 'Liste des Clients (version Vue JS)' to redirect to
 https://danielvornicu.github.io/clients
 
+Deploy 'sample-vue.js' application on Surge:
+1.install Surge globally:
+>npm install --global surge
+2.Build your project using npm run build:
+>npm run build
+3.Now, run surge from within any directory, to publish that directory onto the web.
+>cd dist
+Set a certificate if necessary:
+>set NODE_EXTRA_CA_CERTS=d:\python\examples\heroku\ANFH-CA.cer
+>surge enter email and password and domain: sample-crud-vue-js.surge.sh
+Go to generated domain: sample-crud-vue-js.surge.sh
+
+Shorthand usage:
+  surge [project path] [domain]
+
+Additional commands:
+  surge whoami        show who you are logged in as
+  surge logout        expire local token
+  surge login         only performs authentication step
+  surge list          list all domains you have access to
+  surge teardown      tear down a published project
 
 
 
