@@ -4,15 +4,12 @@
   "description": "Liste des clients",
   "author": "danielvornicu <vdany2003@yahoo.com>",
   "private": true,
-  "homepage": "https://danielvornicu.github.io/sample-vue.js/",
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
     "json-server": "json-server --watch src/json/clients.json --port 3001",
     "both": "concurrently \"npm run dev\" \"npm run json-server\"",
-    "build": "node build/build.js",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "build": "node build/build.js"
   },
   "dependencies": {
     "axios": "^0.21.0",
@@ -40,7 +37,6 @@
     "extract-text-webpack-plugin": "^3.0.0",
     "file-loader": "^1.1.4",
     "friendly-errors-webpack-plugin": "^1.6.1",
-    "gh-pages": "^3.1.0",
     "html-webpack-plugin": "^2.30.1",
     "node-notifier": "^5.1.2",
     "optimize-css-assets-webpack-plugin": "^3.2.0",
