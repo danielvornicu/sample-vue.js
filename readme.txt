@@ -173,20 +173,25 @@ api: node serverJson.js
 heroku ps:scale web=1 api=1
 
 Deploy 'sample-vue.js' application on GitHub Pages:
-1. Install the gh-pages package as a “dev-dependency” of the app.
->npm install gh-pages --save-dev
-2.Add homepage property to package.json file
-"homepage": "https://danielvornicu.github.io/sample-vue.js/"
-3.Deploy scripts under package.json file
-"scripts": {
-  //...
-  "predeploy": "npm run build",
-  "deploy": "gh-pages -d build"
+1. Create a vue.config.js file in the root directory of your Vue project and copy the code below into it
+>touch vue.config.js
+module.exports = {
+  publicPath: '/sample-vue.js/'
 }
+
+2.Build your project using npm run build:
+>npm run build
+
+3.Run:
+>git add dist 
+>git commit -m "adding dist subtree"
+This commits our changes to the master branch so that we can create a dist subtree in the next step. Make sure that dist is not included in your .gitignore file
+
 4.Now deploy it to GitHub Pages
->npm run deploy
-This command will create a branch named gh-pages at your GitHub repository
-Go to {your-GitHub-code-repository} -> settings -> GitHub pages section and setup source to the gh-pages branch
+>git subtree push --prefix dist origin gh-pages
+This step makes gh-pages a subtree of our master branch. The prefix option specifies the folder that we want for our the subtree. 
+If we take a look at our gh-pages branch, we will see that it is equivalent to being the root of the dist folder
+
 5. Go to: https://danielvornicu.github.io/sample-vue.js/ then click to header 'Liste des Clients (version Vue JS)' to redirect to
 https://danielvornicu.github.io/clients
 
