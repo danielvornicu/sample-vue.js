@@ -173,7 +173,8 @@ api: node serverJson.js
 heroku ps:scale web=1 api=1
 
 Deploy 'sample-vue.js' application on GitHub Pages:
-1. Create a vue.config.js file in the root directory of your Vue project and copy the code below into it
+
+1. Create a vue.config.js file in the root directory of your Vue project and set publicPath in vue.config.js to our repository name
 >touch vue.config.js
 module.exports = {
   publicPath: '/sample-vue.js/'
