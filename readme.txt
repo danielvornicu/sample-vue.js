@@ -172,7 +172,7 @@ api: node serverJson.js
 
 heroku ps:scale web=1 api=1
 
-Solution1: Deploy 'sample-vue.js' application on GitHub Pages(don't work, black page)
+Option 1: Deploy 'sample-vue.js' application on GitHub Pages(don't work, black page) with a gh-pages branch
 1. Create a vue.config.js file in the root directory of your Vue project and set publicPath in vue.config.js to our repository name
 >touch vue.config.js
 module.exports = {
@@ -181,7 +181,7 @@ module.exports = {
 2.Build your project using npm run build:
 >npm run build
 3.Run:
->git add dist && git commit -m "adding dist subtree"
+>git add dist -f && git commit -m "adding dist subtree"
 This commits our changes to the master branch so that we can create a dist subtree in the next step. Make sure that dist is not included in your .gitignore file
 4.Now deploy it to GitHub Pages
 >git subtree push --prefix dist origin gh-pages
@@ -193,7 +193,7 @@ https://danielvornicu.github.io/clients
 This is because Github Pages does not automatically redirect all requests to serve index.html.
 >copy index.html 404.html
 
-Solution2: Deploy 'sample-vue.js' application on GitHub Pages with a Master Branch and Docs folder
+Option 2: Deploy 'sample-vue.js' application on GitHub Pages with a Master Branch and Docs folder
 1.git rm dist -r && git commit -m "remove dist"
 2 Modify config\index.js file:
 build: {
