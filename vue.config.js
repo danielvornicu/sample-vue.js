@@ -1,5 +1,5 @@
 module.exports = {
   publicPath: process.env.NODE_ENV === 'production'
-    ? '/sample-vue.js/'
+    ? 'https://danielvornicu.github.io/sample-vue.js/'
     : '/'
 }
