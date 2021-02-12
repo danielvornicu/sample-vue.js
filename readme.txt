@@ -180,6 +180,8 @@ module.exports = {
 }
 2.Build your project using npm run build:
 >npm run build
+Go in your newly created dist folder, go to the index.html and remove the / in the beginning of every script and link tag’s src attribute
+Ex: replace /static/ with static/
 3.Run:
 >git add dist -f && git commit -m "adding dist subtree"
 This commits our changes to the master branch so that we can create a dist subtree in the next step. Make sure that dist is not included in your .gitignore file
