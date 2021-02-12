@@ -172,7 +172,7 @@ api: node serverJson.js
 
 heroku ps:scale web=1 api=1
 
-Deploy 'sample-vue.js' application on GitHub Pages:
+Solution1: Deploy 'sample-vue.js' application on GitHub Pages(don't work, black page)
 1. Create a vue.config.js file in the root directory of your Vue project and set publicPath in vue.config.js to our repository name
 >touch vue.config.js
 module.exports = {
@@ -192,6 +192,23 @@ https://danielvornicu.github.io/clients
 6.Handling Vue Router with a Custom 404 Page: if you try to go directly to a page other than / you’ll get a 404 error. 
 This is because Github Pages does not automatically redirect all requests to serve index.html.
 >copy index.html 404.html
+
+Solution2: Deploy 'sample-vue.js' application on GitHub Pages with a Master Branch and Docs folder
+1.git rm dist -r && git commit -m "remove dist"
+2 Modify config\index.js file:
+build: {
+index: path.resolve(__dirname, '../docs/index.html'),
+assetsRoot: path.resolve(__dirname, '../docs'),
+)
+or change the name of your dist folder to docs after build/
+3.npm run build
+Go in your newly created docs folder, go to the index.html and remove the / in the beginning of every script and link tag’s src attribute
+Ex: replace /static/ with static/
+4.push it to your github repository
+>git add docs && git commit -m "add docs"
+>git push
+5.Go to your repository’s settings.Scroll to the Github Pages settings.
+Change your Source in your Github Pages settings from gh-pages branch to master branch/docs folder
 
 Deploy 'sample-vue.js' application on Surge:
 1.install Surge globally:
