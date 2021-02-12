@@ -181,8 +181,7 @@ module.exports = {
 2.Build your project using npm run build:
 >npm run build
 3.Run:
->git add dist 
->git commit -m "adding dist subtree"
+>git add dist && git commit -m "adding dist subtree"
 This commits our changes to the master branch so that we can create a dist subtree in the next step. Make sure that dist is not included in your .gitignore file
 4.Now deploy it to GitHub Pages
 >git subtree push --prefix dist origin gh-pages
@@ -190,6 +189,9 @@ This step makes gh-pages a subtree of our master branch. The prefix option speci
 If we take a look at our gh-pages branch, we will see that it is equivalent to being the root of the dist folder
 5. Go to: https://danielvornicu.github.io/sample-vue.js/ then click to header 'Liste des Clients (version Vue JS)' to redirect to
 https://danielvornicu.github.io/clients
+6.Handling Vue Router with a Custom 404 Page: if you try to go directly to a page other than / you’ll get a 404 error. 
+This is because Github Pages does not automatically redirect all requests to serve index.html.
+>copy index.html 404.html
 
 Deploy 'sample-vue.js' application on Surge:
 1.install Surge globally:
