@@ -4,6 +4,7 @@
   "description": "Liste des clients",
   "author": "danielvornicu <vdany2003@yahoo.com>",
   "private": true,
+  "homepage": "https://danielvornicu.github.io/sample-vue.js/",
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
