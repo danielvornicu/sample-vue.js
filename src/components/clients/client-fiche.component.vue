@@ -15,7 +15,7 @@
                                 name="nom"
                                 type="text"
                                 v-model="client.nom"
-                                onChange={this.changeNomHandler}
+                  
                                 :placeholder="msg.fiche.client.nomPlaceHolder"
                                 required/>
                     </div>
@@ -29,7 +29,7 @@
                                 id="clientPrenomId"
                                 name="prenom"
                                 v-model="client.prenom"
-                                onChange={this.changePrenomHandler}
+
                                 type="text"
                                 :placeholder="msg.fiche.client.prenomPlaceHolder" 
                                 required/>
@@ -82,33 +82,47 @@ export default {
     }
   },
   //navigation guard: run before page loads
-  beforeRouteEnter (to, from, next) {
+  async beforeRouteEnter (to, from, next) {
         if(typeof(to.params.id) === 'undefined'){
             console.log('New');
             next(vm => {
                 vm.client = {id: null, nom: '', prenom: ''};
             })
         }else{
-            ClientService.findById(to.params.id).then( res => {
-                console.log('Edit');
-                console.log(res.data);
-                next(vm => {
-                  vm.client = res.data;
-                })
-                
-            })
+		    let { data } = await ClientService.findById(to.params.id);
+            console.log('Edit');
+            console.log(data);
+			next(vm => vm.client = data);
+		
+		    //with promises
+            //ClientService.findById(to.params.id).then( res => {
+            //    console.log('Edit');
+            //    console.log(res.data);
+            //    next(vm => {
+            //      vm.client = res.data;
+            //    })              
+            //})
         }
   },
   //after the page loads
   watch : {
-    '$route': 'fetchData'
+    //with vue 2 in vue 3 this watch in useless
+    //'$route': 'fetchData'
+	$route(to, from) {
+      console.log('modif: from ' + from.name + ' => ' + to.name);
+	  //this.fetchData();
+    }
   },
   methods : {
-    fetchData () {
-        ClientService.findById(this.$route.params.id).then( res => {
-            console.log(res.data);
-            this.client = res.data; 
-        })
+    async fetchData () {
+	    let { data } = await ClientService.findById(this.$route.params.id);
+        this.client = data; 	
+		
+	    //with promises
+        //ClientService.findById(this.$route.params.id).then( res => {
+        //    console.log(res.data);
+        //    this.client = res.data; 
+        //})
     },
     getTitle(){
         if(typeof(this.$route.params.id) === 'undefined'){
@@ -117,7 +131,7 @@ export default {
             return messages.fiche.client.titres.modification + this.client.prenom + ' ' + this.client.nom;
         }
     },
-    save(){
+    async save(){
         let client = {id: this.client.id, nom: this.client.nom, prenom: this.client.prenom};
 
         console.log('client => ' + JSON.stringify(client));
@@ -125,20 +139,32 @@ export default {
 
         if(this.client.id == null){
             //console.log('Save New');
-            ClientService.save(client, true).then(res =>{
-                console.log('Save New');
-                this.sendFlashMessage(messages.liste.actions.creerSucces, 'success')
-                this.$router.push('/clients')
-                
-            });
+			let { data } = await ClientService.save(client, true);
+			console.log('Save New');
+			this.sendFlashMessage(messages.liste.actions.creerSucces, 'success');
+			this.$router.push('/clients');
+			
+			//with promises
+            //ClientService.save(client, true).then(res =>{
+            //    console.log('Save New');
+            //    this.sendFlashMessage(messages.liste.actions.creerSucces, 'success')
+            //    this.$router.push('/clients')              
+            //});
             
         }else{
             console.log('Save Edit');
-            ClientService.save(client, false).then( res => {
-                console.log('Save Edit');
-                this.sendFlashMessage(messages.liste.actions.modifierSucces, 'success')
-                this.$router.push('/clients') 
-            });
+			
+			let { data } = await ClientService.save(client, false);
+			console.log('Save Edit');
+			this.sendFlashMessage(messages.liste.actions.modifierSucces, 'success');
+			this.$router.push('/clients');
+			
+			//with promises
+            //ClientService.save(client, false).then( res => {
+            //    console.log('Save Edit');
+            //    this.sendFlashMessage(messages.liste.actions.modifierSucces, 'success')
+            //    this.$router.push('/clients') 
+            //});
             
         }
     },
@@ -146,18 +172,25 @@ export default {
     cancel(){
         this.$router.push('/clients')
     },
-    deleteClient(id) {
+    async deleteClient(id) {
           if(confirm(messages.fiche.boutons.supprimerConfirm)) {
               console.log(id);
-              ClientService.deleteById(id).then( res => {
-                  this.$router.push('/clients')
-              });
+			  //with async/await
+			  let { res } = await ClientService.deleteById(id);
+			  this.$router.push('/clients')
+			  
+			  //with promises
+              //ClientService.deleteById(id).then( res => {
+              //    this.$router.push('/clients')
+              //});
+			  
               this.sendFlashMessage(messages.liste.actions.supprimerSucces, 'warning')
           }
     },
     sendFlashMessage(message, type){
         //Communication between any components using Event Bus
-         this.$root.$emit('flash message', message, type);
+         //this.$root.$emit('flash message', message, type);
+		 this.emitter.emit('flash message', { message: message, type : type });
     } 
   }
 }

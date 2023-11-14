@@ -38,8 +38,11 @@ export default {
   name: 'flash-messages-component',
   mounted(){
     //Communication between any components using Event Bus
-    this.$root.$on('flash message', (message, type) => {
-              //cleart old messages
+	//old works with vue2
+	//this.$root.$on('flash message', (message, type) => {})
+	
+    this.emitter.on('flash message', (data) => {
+        //cleart old messages
         this.flashMessages = [];
 
         let lastId;
@@ -49,9 +52,9 @@ export default {
           lastId = 0;
         }
 
-        let messageObj = {'id': lastId + 1, 'value': message, 'type': type}
+        let messageObj = {'id': lastId + 1, 'value': data.message, 'type': data.type}
 
-        console.log('Message received: ' + message + ', type: ' + type);
+        console.log('Message received: ' + data.message + ', type: ' + data.type);
         this.flashMessages.push(messageObj);
         //this.logFlashMessages();
 
@@ -116,7 +119,7 @@ export default {
   }
 
 }
-/*
+
 document.addEventListener('DOMContentLoaded', function () {
     let $closeIcons = Array.prototype.slice.call(document.querySelectorAll('.close'), 0);
 
@@ -131,5 +134,5 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
     }
-});*/
+});
 </script>

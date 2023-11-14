@@ -18,7 +18,7 @@
   },
  "clients" : {
    "vuejs" : {
-    "titre" : "Liste des Clients (version VueJS)"
+    "titre" : "Liste des Clients (version Vue.js 3.x)"
    }
   }
  },

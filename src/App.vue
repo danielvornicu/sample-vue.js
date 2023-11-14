@@ -2,7 +2,7 @@
   <div id="app">
     <Header />
     <div class="container">
-      <FlashMsg />
+	  <FlashMsg />
       <router-view/>
     </div>
     <Footer />
@@ -10,15 +10,21 @@
 </template>
 
 <script>
-import Header from './components/shared/header.component';
-import Footer from './components/shared/footer.component';
-import FlashMsg from './components/shared/flash.messages.component';
+import Header from './components/shared/header.component.vue';
+import Footer from './components/shared/footer.component.vue';
+import FlashMsg from './components/shared/flash.messages.component.vue';
 export default {
   name: 'App',
    components: {
     Header,
     Footer,
-    FlashMsg
+	FlashMsg
+  },
+  mounted() {
+    console.log('App mounted');
+    //this.emitter.on('flash message', (data) => {
+    //  console.log(data)
+    //})
   }
 }
 </script>

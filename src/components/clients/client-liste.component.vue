@@ -75,6 +75,7 @@
 <script>
 import messages from '../../assets/messages.json'
 import ClientService from './client.service'
+import axios from 'axios';
 export default {
   name: 'client-liste',
   data () {
@@ -84,11 +85,8 @@ export default {
       storage_mode : ''
     }
   },
-  created(){
-    ClientService.findAll().then((res) => {
-        console.log(res.data);
-        this.clients = res.data;
-    });
+  async created(){
+	await this.getAllClients();
     this.storage_mode = ClientService.getStorageMode();   
   },
   methods : {
@@ -104,23 +102,50 @@ export default {
       edit(id){
          this.$router.push(`/clients/${id}/edit`)
       },
-      deleteClient(id) {
+	  
+	  async getAllClients(){
+
+		//const { data } = await axios.get('http://localhost:3001/clients');
+		//this.clients = data;
+		
+		let { data } = await ClientService.findAll();
+		this.clients = data;	
+		
+		//with promises
+		//ClientService.findAll()
+		//.then((res) => {
+		//	console.log(res.data);
+		//	this.clients = res.data;
+		//})
+		//.catch(e => {
+		//   console.log(e);
+		//});
+	  },
+	  
+      async deleteClient(id) {
           if(confirm(messages.fiche.boutons.supprimerConfirm)) {
-              console.log(id);
-              ClientService.deleteById(id).then( res => {
-                  
-                    this.sendFlashMessage(messages.liste.actions.supprimerSucces, 'warning')
-                    
-                    ClientService.findAll().then((res) => {
-                        console.log(res.data);
-                        this.clients = res.data;
-                    }); 
-              });            
+              console.log(id);		
+			  //with async/await
+			  let { res } = await ClientService.deleteById(id);
+			  this.sendFlashMessage(messages.liste.actions.supprimerSucces, 'warning');
+			  let { data } = await ClientService.findAll();	
+			  this.clients = data;				
+			  
+			  //with promises
+              //ClientService.deleteById(id).then( res => {                 
+              //      this.sendFlashMessage(messages.liste.actions.supprimerSucces, 'warning')                  
+              //      ClientService.findAll().then((res) => {
+              //          console.log(res.data);
+              //          this.clients = res.data;
+              //      }); 
+              //});            
           }
       },
       sendFlashMessage(message, type){
         //Communication between any components using Event Bus
-         this.$root.$emit('flash message', message, type);
+         //this.$root.$emit('flash message', message, type);
+		 
+		 this.emitter.emit('flash message', { message: message, type : type });
       }
   }
 }
