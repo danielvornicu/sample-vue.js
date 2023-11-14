@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "webpack serve",
     "json-server": "json-server --watch src/json/clients.json --port 3001",
-    "build": "webpack --mode production --progress --hide-modules"
+    "build": "webpack --mode production --progress"
   },
   "author": "danielvornicu <vdany2003@yahoo.com>",
   "license": "ISC",
